@@ -1,32 +1,27 @@
-function calculateBMI() {
-    const height = parseFloat(document.getElementById("height").value);
-    const weight = parseFloat(document.getElementById("weight").value);
-    const bmiOutput = document.getElementById("bmi");
-    const messageOutput = document.getElementById("message");
-  
-    if (!height || !weight || height <= 0 || weight <= 0) {
-      alert("Please enter valid height and weight!");
-      return;
-    }
-  
-    const heightInMeters = height / 100;
-    const bmi = weight / (heightInMeters * heightInMeters);
-    const bmiRounded = bmi.toFixed(2);
-  
-    bmiOutput.textContent = `Your BMI: ${bmiRounded}`;
-  
-    let category = "";
-  
+document.getElementById('bmiForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const weight = parseFloat(document.getElementById('weight').value);
+  const height = parseFloat(document.getElementById('height').value) / 100;
+
+  if (weight > 0 && height > 0) {
+    const bmi = weight / (height * height);
+    let status = '';
+
     if (bmi < 18.5) {
-      category = "Underweight";
+      status = 'Underweight';
     } else if (bmi < 24.9) {
-      category = "Normal weight";
+      status = 'Normal weight';
     } else if (bmi < 29.9) {
-      category = "Overweight";
+      status = 'Overweight';
     } else {
-      category = "Obese";
+      status = 'Obese';
     }
-  
-    messageOutput.textContent = `Category: ${category}`;
+
+    document.getElementById('result').innerHTML = `
+      Your BMI is <strong>${bmi.toFixed(2)}</strong> (${status})
+    `;
+  } else {
+    document.getElementById('result').textContent = 'Please enter valid numbers.';
   }
-  
+});
